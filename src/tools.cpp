@@ -21,8 +21,18 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
     // check the validity of the following inputs:
     //  * the estimation vector size should not be zero
     //  * the estimation vector size should equal ground truth vector size
-    if (estimations.size() != ground_truth.size()
-        || estimations.size() == 0){
+    
+    if(estimations.size() == 0){
+        cout << "ERROR - CalculateRMSE () - The estimations vector is empty" << endl;
+        return rmse;
+    }
+    
+    if(ground_truth.size() == 0){
+        cout << "ERROR - CalculateRMSE () - The ground-truth vector is empty" << endl;
+        return rmse;
+    }
+
+    if (estimations.size() != ground_truth.size()){
         std::cout << "Invalid estimation or ground_truth data" << std::endl;
         return rmse;
     }
@@ -70,8 +80,8 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
     
     //check division by zero
     Hj << px/den, py/den, 0,0,
-    -py/den_2, px/den_2,0,0,
-    (py * prod)/den_3,  (px * prod)/den_3, px/den, py/den;
+          -py/den_2, px/den_2,0,0,
+    (     py * prod)/den_3,  (px * prod)/den_3, px/den, py/den;
     
     
     //compute the Jacobian matrix
